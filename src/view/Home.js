@@ -1,20 +1,27 @@
 
-import {Platform, StyleSheet, Text, View, Button} from 'react-native';
+import {Platform, StyleSheet, Text, View, Button,Image} from 'react-native';
 import {createBottomTabNavigator,createNavigationContainer,createMaterialTopTabNavigator} from 'react-navigation';
 import Conference from './Conference';
 import Contact from './Contact';
 import Setting from './Setting';
+
+import {FontAwesome} from 'react-native-vector-icons/FontAwesome';
+import * as baseStyle from "../styles/base";
+
 
 
 const BottomTabNav = createBottomTabNavigator({
     Conference:{
         screen:Conference,
         navigationOptions: ({navigation, screenProps}) => ({
+            tabBarIcon: () => {
+              return(<Image source={{ uri: baseStyle.globalIcons.sorryImg}} style={{width: 20, height: 20}}/>)
+            },
             tabBarLabel: '会议',
             headerStyle: {
                 backgroundColor: 'red'
-            },
-        }),
+            }
+        })
     },
     Contact:{
         screen:Contact,
@@ -22,8 +29,8 @@ const BottomTabNav = createBottomTabNavigator({
             tabBarLabel: '通讯录',
             headerStyle: {
                 backgroundColor: 'red',
-            },
-        }),
+            }
+        })
     },
     Setting:{
         screen:Setting,
@@ -37,6 +44,7 @@ const BottomTabNav = createBottomTabNavigator({
 },
     {
         tabBarOptions: {
+            shifting: true,
             activeTintColor: '#0089ff',
             labelStyle: {
                 fontSize:18,
