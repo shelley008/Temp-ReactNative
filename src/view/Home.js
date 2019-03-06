@@ -5,15 +5,13 @@ import Conference from './Conference';
 import Contact from './Contact';
 import Setting from './Setting';
 
-import {FontAwesome} from 'react-native-vector-icons/FontAwesome';
+
 import * as baseStyle from "../styles/base";
-
-
 
 const BottomTabNav = createBottomTabNavigator({
     Conference:{
         screen:Conference,
-        navigationOptions: ({navigation, screenProps}) => ({
+        navigationOptions: ({navigation}) => ({
             tabBarLabel: '会议',
             headerStyle: {
                 backgroundColor: 'red'
@@ -41,7 +39,7 @@ const BottomTabNav = createBottomTabNavigator({
 },
     {
         tabBarOptions: {
-            shifting: true,
+            showIcon: true,
             activeTintColor: '#0089ff',
             labelStyle: {
                 fontSize:18,
