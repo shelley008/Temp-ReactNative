@@ -14,9 +14,6 @@ const BottomTabNav = createBottomTabNavigator({
     Conference:{
         screen:Conference,
         navigationOptions: ({navigation, screenProps}) => ({
-            tabBarIcon: () => {
-              return(<Image source={{ uri: baseStyle.globalIcons.sorryImg}} style={{width: 20, height: 20}}/>)
-            },
             tabBarLabel: '会议',
             headerStyle: {
                 backgroundColor: 'red'
