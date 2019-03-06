@@ -6,7 +6,7 @@ export default class Conference extends Component{
     render() {
         return (
           <View>
-               <Text>ddd</Text>
+               <Text>会议列表</Text>
           </View>
        )
     }
