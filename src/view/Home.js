@@ -1,46 +1,69 @@
+import React,{Component} from 'react'
+import {Text, StyleSheet, View, Image} from 'react-native'
+import * as baseStyle from "../styles/base";
+import {Icon as Icons} from "react-native-elements";
+import {createStackNavigator,createAppContainer,createBottomTabNavigator} from "react-navigation";
 
-import {Platform, StyleSheet, Text, View, Button,Image} from 'react-native';
-import {createBottomTabNavigator,createNavigationContainer,createMaterialTopTabNavigator} from 'react-navigation';
 import Conference from './Conference';
 import Contact from './Contact';
 import Setting from './Setting';
 
 
-import * as baseStyle from "../styles/base";
+class TabBarIcon extends Component {
+    render() {
+        return(
+            <Icons name='g-translate'color='#00aced' size={20}/>
+        )
+    }
+}
 
-const BottomTabNav = createBottomTabNavigator({
-    Conference:{
-        screen:Conference,
-        navigationOptions: ({navigation}) => ({
-            tabBarLabel: '会议',
-            headerStyle: {
-                backgroundColor: 'red'
-            }
-        })
+class TabBarIconItem extends Component {
+    render(){
+        return(
+            <Image source={this.props.focused ? this.props.selectedImage : this.props.normalImage}
+            style={{tintColor:this.props.tintColor,width:20, height:20}}/>
+        )
+    }
+}
+
+const BottomTabNavBar = createBottomTabNavigator({
+        Conference:{
+            screen:Conference,
+            navigationOptions:  ({navigation, screenProps}) => ({
+                tabBarLabel: 'home1222',
+                tabBarIcon:({focused,tintColor}) =>{
+                    return <TabBarIcon
+                            tintColor={ tintColor }
+                            focused={ focused }
+                            normalImage={ { uri:baseStyle.globalIcons.sorryImg } }
+                            selectedImage={ { uri:baseStyle.globalIcons.sorryImg } }
+                    />
+                }
+            })
+        },
+        Contact:{
+            screen:Contact,
+            navigationOptions: ({navigation, screenProps}) => ({
+                tabBarLabel: '通讯录111',
+                headerStyle: {
+                    backgroundColor: 'red',
+                },
+                tabBarIcon:({focused}) =>{
+                    return <TabBarIconItem />
+                }
+            })
+        },
+        Setting:{
+            screen:Setting,
+            navigationOptions: ({navigation, screenProps}) => ({
+                tabBarLabel: '我的'
+            })
+        }
     },
-    Contact:{
-        screen:Contact,
-        navigationOptions: ({navigation, screenProps}) => ({
-            tabBarLabel: '通讯录',
-            headerStyle: {
-                backgroundColor: 'red',
-            }
-        })
-    },
-    Setting:{
-        screen:Setting,
-        navigationOptions: ({navigation, screenProps}) => ({
-            tabBarLabel: '我的',
-            headerStyle: {
-                backgroundColor: 'red',
-            },
-        }),
-    },
-},
     {
         tabBarOptions: {
             showIcon: true,
-            activeTintColor: '#0089ff',
+            activeTintColor: 'blue',
             labelStyle: {
                 fontSize:18,
             },
@@ -51,5 +74,5 @@ const BottomTabNav = createBottomTabNavigator({
     }
 )
 
-
-export default BottomTabNav;
+const BottomTabNav = createAppContainer(BottomTabNavBar)
+export default BottomTabNav
