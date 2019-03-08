@@ -20,12 +20,12 @@ export default class Welcome extends React.Component {
 
     goHome(){
         console.log('---go-home')
-        this.props.navigation.navigate('Conference')
+        this.props.navigation.navigate('Login')
     }
 
     getSecond(){
         this.timer=setTimeout(()=>{
-            this.props.navigation.navigate('Conference');//7秒后进入底部导航主页
+            this.props.navigation.navigate('Login');//7秒后进入底部导航主页
         },7000)
     }
 
