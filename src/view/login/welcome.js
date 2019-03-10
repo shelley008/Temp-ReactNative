@@ -20,13 +20,22 @@ export default class Welcome extends React.Component {
 
     goHome(){
         console.log('---go-home')
-        this.props.navigation.navigate('Login')
+        this.props.navigation.navigate('Login',{
+            id:110,
+            info:'This Login ',
+            name:'zgh'
+        })
     }
+
 
     getSecond(){
         this.timer=setTimeout(()=>{
-            this.props.navigation.navigate('Login');//7秒后进入底部导航主页
-        },7000)
+            this.props.navigation.navigate('Login',{
+                id:110,
+                info:'Login ',
+                name:'guihua'
+            });//7秒后进入底部导航主页
+        },8000)
     }
 
     componentDidMount(){
@@ -52,6 +61,9 @@ export default class Welcome extends React.Component {
                 >
                      <Text style={styles.btn}>跳过{this.state.seconds}</Text>
                 </TouchableHighlight>
+
+
+
             </View>
         )
     }
