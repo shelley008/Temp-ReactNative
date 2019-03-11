@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';
 
 import DeviceStorage from '../../config/deviceStorage'
+import {doLoginRest} from "../../api/login";
 
 
 export default class Login extends React.Component{
@@ -42,6 +43,10 @@ export default class Login extends React.Component{
         }
         console.log('---param---')
         console.log(params)
+
+        doLoginRest(params).then(res => {
+            console.log(res)
+        })
     }
 
 
