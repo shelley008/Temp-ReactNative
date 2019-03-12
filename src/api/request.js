@@ -5,7 +5,7 @@ import axios from 'axios'
 
 
 
-
+let BASE_API = 'http://172.0.1.0'
 
 //通用配置的axios实例
 const service = axios.create({
