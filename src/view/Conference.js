@@ -12,8 +12,8 @@ export default class Conference extends Component{
     render() {
         return (
           <View>
-            <Text>会议列表111</Text>
-            <Button title="Solid Button" />
+            <Text>会议列表</Text>
+            <Button title="Login"  onPress={() => this.props.navigation.navigate('Login')} />
             <Button title="Outline button" type="outline" />
             <Button  icon={ <Icon name="arrow-right" size={15} color="white"/>}  title="Button with i334400000" />
             <View style={{padding:30,flex:1}}>

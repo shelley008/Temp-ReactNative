@@ -1,12 +1,11 @@
 import request from './request'
 
 
-
 //登录请求
-export const doLoginRest = params => {
+export const doLoginRest = data => {
     return request({
-        url:'/login',
+        url:'/web/login',
         method:'put',
-        params:params
+        data
     })
 }

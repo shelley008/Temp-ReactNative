@@ -1,10 +1,13 @@
 import React,{Component} from 'react';
-import {View,Text,StyleSheet,Image,Dimensions,TouchableHighlight} from 'react-native'
+import {View,Text,StyleSheet,Image,Dimensions,TouchableHighlight} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input } from 'react-native-elements';
 
 import DeviceStorage from '../../config/deviceStorage'
 import {doLoginRest} from "../../api/login";
+import crypto from 'node-forge';
+//import DeviceStorage from '../../config/deviceStorage';
+
 
 
 export default class Login extends React.Component{
@@ -14,6 +17,7 @@ export default class Login extends React.Component{
             serveAddress:'',
             account:'',
             password:'',
+            focus: false
 
         }
         this.deviceSN=''
@@ -21,6 +25,22 @@ export default class Login extends React.Component{
         this.domain='local'
         this.tempToken=''
     }
+
+    updateState = (key, text) => {
+        this.setState({[key]: text});
+    };
+
+    onFocus = () => {
+        this.setState({
+            focus: true
+        });
+    };
+
+    onBlur = () => {
+        this.setState({
+            focus: false
+        });
+    };
 
 
     _doLogin(){
@@ -33,26 +53,31 @@ export default class Login extends React.Component{
             console.log('----请输入密码')
             return
         }
+        //let pwd = crypto.createHash('sha1').update(password, 'utf-8').digest('HEX')
+        let pwd = crypto.md.sha1.create().update(password).digest().toHex()
+
         let params = {
             account:account,
-            password:password,
-            deviceSN:this.deviceSN,
-            deviceType:this.deviceType,
-            domain:this.domain,
-            tempToken:this.tempToken
+            password:pwd,
+            intranet: "false"
         }
         console.log('---param---')
         console.log(params)
 
         doLoginRest(params).then(res => {
-            console.log(res)
+            console.log(res.data)
+           // DeviceStorage.save(userProfile,res.data.profile)
+           // DeviceStorage.save(userToken,res.data.token)
+            this.props.navigation.navigate('Conference')
+        }).catch(err=>{
+            console.log(err)
         })
     }
 
 
-
     render(){
         const {navigation} = this.props;
+        const {account, password} = this.state;
         const id = navigation.getParam('id')
         const info = navigation.getParam('info')
         const name = navigation.getParam('name')
@@ -61,20 +86,20 @@ export default class Login extends React.Component{
         return(
             <View>
 
-                <View>
-                    <Input
-                        placeholder='请输入服务器地址'
-                        leftIcon={
-                            <Icon
-                                name='user'
-                                size={24}
-                                color='black'
-                            />
-                        }
-                        value = {this.state.userName}
-                        onChangeText = { userName => this.setState({userName}) }
-                    />
-                </View>
+                {/*<View>*/}
+                    {/*<Input*/}
+                        {/*placeholder='请输入服务器地址'*/}
+                        {/*leftIcon={*/}
+                            {/*<Icon*/}
+                                {/*name='user'*/}
+                                {/*size={24}*/}
+                                {/*color='black'*/}
+                            {/*/>*/}
+                        {/*}*/}
+                        {/*value = {account}*/}
+                        {/*update={this.updateState}*/}
+                    {/*/>*/}
+                {/*</View>*/}
                 <View>
                     <Input
                         placeholder='请输入账号'
@@ -85,8 +110,15 @@ export default class Login extends React.Component{
                                 color='black'
                             />
                         }
-                        value = {this.state.account}
-                        onChangeText = { account => this.setState({account}) }
+                        value = {account}
+                        id="account"
+                        //id="account" update={this.updateState}  value={account}
+                       // onChangeText = { account => this.setState({account}) }
+                        onChangeText={(text) => this.updateState('account', text)}
+                        onFocus={this.onFocus}
+                        onBlur={this.onBlur}
+
+
                     />
                 </View>
                 <View>
@@ -99,13 +131,16 @@ export default class Login extends React.Component{
                                 color='black'
                             />
                         }
-                        value = {this.state.password}
-                        onChangeText = { password => this.setState({password}) }
+                        value = {password}
+                        id="password"
+                        //onChangeText = { password => this.setState({password})
+                        //id="password" update={this.updateState}  value={password}
+                        onChangeText={(text) => this.updateState('password', text)}
                     />
                 </View>
 
 
-                <TouchableHighlight style={{margin:20}} onPress={this._doLogin()}>
+                <TouchableHighlight style={{margin:20}} onPress={()=>{this._doLogin()}}>
                     <Text style={{backgroundColor:'blue',padding:10,fontSize:25}}>登录</Text>
                 </TouchableHighlight>
 

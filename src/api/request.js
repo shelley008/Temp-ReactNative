@@ -1,16 +1,12 @@
 import axios from 'axios'
 
 
-
-
-
-
-let BASE_API = 'http://172.0.1.0'
+let BASE_API = 'http://cloud.hexmeet.com'
 
 //通用配置的axios实例
 const service = axios.create({
     baseURL: BASE_API+"/api/rest/v2.0", // api的base_url
-    timeout: 5000 // 请求超时时间
+    timeout: 10000 // 请求超时时间
 })
 
 
@@ -26,22 +22,12 @@ service.interceptors.request.use(config => {
 
 
 // respone 响应后拦截器
-service.interceptors.response.use(
-    response => {
-        const res = response.data;
-        console.log("api response data =====")
-        console.log(response.data)
-        return response
-    },
-    error => {
-        console.log('err' + error)// for debug
-        Message({
-            message: error.message,
-            type: 'error',
-            duration: 5 * 1000
-        })
-        return Promise.reject(error)
-    }
-)
+service.interceptors.response.use(function (response) {
+    return response
+}, function (error) {
+    // 处理统一的验证失效错误.
+    let errorCode = error.response.data.errorCode ? error.response.data.errorCode : null
+    return Promise.reject(error)
+})
 
 export default service
